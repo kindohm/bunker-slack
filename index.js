@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // sourced from https://en.wikipedia.org/wiki/Magic_8-ball
 const answers = [
@@ -35,13 +38,37 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-
 app.post("/magic8ball", (req, res) => {
-  const text = answers[getRandomIntInclusive(0,answers.length-1)]
-  res.json({
-    response_type: "in_channel",
-    text,
-  });
+  console.log("req.body", req.body);
+
+  const answer = answers[getRandomIntInclusive(0, answers.length - 1)];
+  const text = `${req.body.user_name} ${answer}`;
+
+  const slackResponse = {
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `${req.body.user_name} shakes the magic 8 ball and asks`,
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*${answer}*`,
+        },
+      },
+    ],
+  };
+
+  res.json(slackResponse);
+
+  // res.json({
+  //   response_type: "in_channel",
+  //   text,
+  // });
 });
 
 app.listen(port, () => {
