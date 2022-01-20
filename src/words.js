@@ -68,6 +68,13 @@ const words = [
   'desk',
   'resume',
   'recruiter',
+  'iphone',
+  'android',
+  'smartphone',
+  'atom',
+  'tesla',
+  'stock',
+  'doge',
 ];
 
 module.exports = words;

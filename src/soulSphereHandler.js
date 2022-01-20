@@ -13,7 +13,7 @@ const getRandomWord = async () => {
 const getRandomSentence = async () => {
   try {
     const word = await getRandomWord();
-    const url = `${wordnikApiUrl}/word.json/${word}/examples?limit=10&api_key=${wordnikApiKey}`;
+    const url = `${wordnikApiUrl}/word.json/${word}/examples?limit=50&api_key=${wordnikApiKey}`;
     const result = await axios.get(url);
     const examples = result.data.examples;
     console.log('word', word);
