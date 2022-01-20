@@ -3,14 +3,9 @@ const app = express();
 const port = 5150;
 const bodyParser = require('body-parser');
 const answers = require('./answers');
+const { randInt } = require('./util');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const randInt = (min, max) => {
-  const cmin = Math.ceil(min);
-  const fmax = Math.floor(max);
-  return Math.floor(Math.random() * (fmax - cmin + 1) + cmin);
-};
 
 app.post('/', (req, res) => {
   try {
