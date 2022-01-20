@@ -42,22 +42,23 @@ app.post("/magic8ball", (req, res) => {
   console.log("req.body", req.body);
 
   const answer = answers[getRandomIntInclusive(0, answers.length - 1)];
-  const text = `${req.body.user_name} ${answer}`;
-
+  const { body } = req;
+  const { text, user_name } = body;
+  
   const slackResponse = {
     blocks: [
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `${req.body.user_name} shakes the magic 8 ball and asks`,
+          text: `_${user_name} shakes the magic 8 ball and asks \"${text}\"_`,
         },
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*${answer}*`,
+          text: `${answer}`,
         },
       },
     ],
