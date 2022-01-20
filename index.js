@@ -44,8 +44,9 @@ app.post("/magic8ball", (req, res) => {
   const answer = answers[getRandomIntInclusive(0, answers.length - 1)];
   const { body } = req;
   const { text, user_name } = body;
-  
+
   const slackResponse = {
+    response_type: "in_channel",
     blocks: [
       {
         type: "section",
