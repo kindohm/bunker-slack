@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "prepare": "husky install",
+    "prettify-staged": "pretty-quick --staged"
   },
   "author": "Mike Hodnick <mike@kindohm.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "1.19.1",
     "express": "4.17.2"
+  },
+  "devDependencies": {
+    "husky": "7.0.0",
+    "pretty-quick": "3.1.3"
   }
 }
