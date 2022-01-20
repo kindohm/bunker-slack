@@ -1,15 +1,15 @@
 {
-  "name": "m8b",
+  "name": "magic8ball slash command",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Mike Hodnick <mike@kindohm.com>",
+  "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.1",
-    "express": "^4.17.2"
+    "body-parser": "1.19.1",
+    "express": "4.17.2"
   }
 }
