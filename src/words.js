@@ -75,6 +75,15 @@ const words = [
   'tesla',
   'stock',
   'doge',
+  'youtube',
+  'blog',
+  'private',
+  'rate',
+  'salaries',
+  'salary',
+  'beer',
+  'beers',
+  'legit',
 ];
 
 module.exports = words;
