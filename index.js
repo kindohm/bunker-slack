@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const port = 5150;
-const bodyParser = require("body-parser");
-const answers = require('./answers')
+const bodyParser = require('body-parser');
+const answers = require('./answers');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -12,7 +12,7 @@ const randInt = (min, max) => {
   return Math.floor(Math.random() * (fmax - cmin + 1) + cmin);
 };
 
-app.post("/", (req, res) => {
+app.post('/', (req, res) => {
   try {
     const answer = answers[randInt(0, answers.length - 1)];
     const { body } = req;
@@ -22,19 +22,19 @@ app.post("/", (req, res) => {
     const { text, user_name } = body;
 
     const slackResponse = {
-      response_type: "in_channel",
+      response_type: 'in_channel',
       blocks: [
         {
-          type: "section",
+          type: 'section',
           text: {
-            type: "mrkdwn",
+            type: 'mrkdwn',
             text: `_${user_name} shakes the magic 8 ball and asks \"${text}\"_`,
           },
         },
         {
-          type: "section",
+          type: 'section',
           text: {
-            type: "mrkdwn",
+            type: 'mrkdwn',
             text: `${answer}`,
           },
         },
@@ -43,9 +43,9 @@ app.post("/", (req, res) => {
 
     res.json(slackResponse);
   } catch (e) {
-    console.error("an error occurred");
+    console.error('an error occurred');
     console.error(e);
-    res.status(500).send("error");
+    res.status(500).send('error');
   }
 });
 
