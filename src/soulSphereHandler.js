@@ -14,6 +14,7 @@ const getRandomSentence = async () => {
     const url = `${wordnikApiUrl}/word.json/${word}/examples?limit=10&api_key=${wordnikApiKey}`;
     const result = await axios.get(url);
     const examples = result.data.examples;
+    console.log('word', word);
     return examples[randInt(0, examples.length - 1)].text;
   } catch (err) {
     console.error('error getting sentence. probably exceeded rate limit.');
@@ -25,9 +26,6 @@ const getRandomSentence = async () => {
 const handler = async (req, res) => {
   try {
     const { body } = req;
-
-    console.log('incoming request', body);
-
     const { user_name } = body;
     const sentence = await getRandomSentence();
 
