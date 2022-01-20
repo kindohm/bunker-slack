@@ -15,7 +15,6 @@ const getRandomSentence = async () => {
     return result.data.examples[0].text;
   } catch (err) {
     console.error('error getting sentence. probably exceeded rate limit.');
-    console.error('err status', err.response.status);
     return 'Bunker is currently soulless.';
   }
 };
