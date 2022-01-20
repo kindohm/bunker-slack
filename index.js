@@ -12,7 +12,7 @@ const randInt = (min, max) => {
   return Math.floor(Math.random() * (fmax - cmin + 1) + cmin);
 };
 
-app.post("/shake/slack", (req, res) => {
+app.post("/", (req, res) => {
   try {
     const answer = answers[randInt(0, answers.length - 1)];
     const { body } = req;
