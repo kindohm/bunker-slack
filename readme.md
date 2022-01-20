@@ -9,3 +9,7 @@ npm run start
 
 On commit, a `husky` pre-commit hook is used to auto-prettify
 files with `pretty-quick`.
+
+## References
+
+https://api.slack.com/interactivity/slash-commands
