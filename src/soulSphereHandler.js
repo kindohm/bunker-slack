@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { wordnikApiUrl, wordnikApiKey } = require('./config');
+const { randInt } = require('./util');
 
 const getRandomWord = async () => {
   const url = `${wordnikApiUrl}/words.json/randomWord?api_key=${wordnikApiKey}`;
@@ -10,9 +11,10 @@ const getRandomWord = async () => {
 const getRandomSentence = async () => {
   try {
     const word = await getRandomWord();
-    const url = `${wordnikApiUrl}/word.json/${word}/examples?api_key=${wordnikApiKey}`;
+    const url = `${wordnikApiUrl}/word.json/${word}/examples?limit=10&api_key=${wordnikApiKey}`;
     const result = await axios.get(url);
-    return result.data.examples[0].text;
+    const examples = result.data.examples;
+    return examples[randInt(0, examples.length - 1)].text;
   } catch (err) {
     console.error('error getting sentence. probably exceeded rate limit.');
     console.error(err);
