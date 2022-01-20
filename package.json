@@ -1,5 +1,5 @@
 {
-  "name": "magic8ball slash command",
+  "name": "m8ball-slash-command",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
