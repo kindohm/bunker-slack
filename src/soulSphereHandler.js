@@ -38,7 +38,7 @@ const handler = async (req, res) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `_${user_name} shakes the Soul Sphere`,
+            text: `_${user_name} shakes the Soul Sphere_`,
           },
         },
         {
