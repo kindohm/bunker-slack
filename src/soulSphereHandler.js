@@ -1,11 +1,13 @@
 const axios = require('axios');
 const { wordnikApiUrl, wordnikApiKey } = require('./config');
 const { randInt } = require('./util');
+const words = require('./words');
 
 const getRandomWord = async () => {
-  const url = `${wordnikApiUrl}/words.json/randomWord?api_key=${wordnikApiKey}`;
-  const result = await axios.get(url);
-  return result.data.word;
+  return words[randInt(0, words.length - 1)];
+  // const url = `${wordnikApiUrl}/words.json/randomWord?api_key=${wordnikApiKey}`;
+  // const result = await axios.get(url);
+  // return result.data.word;
 };
 
 const getRandomSentence = async () => {
