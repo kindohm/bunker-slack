@@ -16,6 +16,9 @@ app.post("/", (req, res) => {
   try {
     const answer = answers[randInt(0, answers.length - 1)];
     const { body } = req;
+
+    console.log('incoming request', body);
+
     const { text, user_name } = body;
 
     const slackResponse = {
