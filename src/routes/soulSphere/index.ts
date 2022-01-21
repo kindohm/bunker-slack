@@ -1,7 +1,10 @@
+import express from 'express';
 import tracery from 'tracery-grammar';
-import { randInt } from './util';
+import { randInt } from './../../util';
 import structures from './structures';
 import { Request, Response } from 'express';
+
+const router = express.Router();
 
 const getRandomSentence = async () => {
   const grammar = tracery.createGrammar(
@@ -38,7 +41,7 @@ const getShakeText = (user_name: string, text: string): string => {
   return `${user_name} ${adverb}${verb} the soul sphere and asks "${text}"`;
 };
 
-const handler = async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
     const { body } = req;
     const { text, user_name }: { text: string; user_name: string } = body;
@@ -70,6 +73,6 @@ const handler = async (req: Request, res: Response) => {
     console.error(e);
     res.status(500).send('error');
   }
-};
+});
 
-export default handler;
+export default router;

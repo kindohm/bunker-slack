@@ -1,8 +1,11 @@
+import express from 'express';
 import { Request, Response } from 'express';
 import answers from './answers';
-import { randInt } from './util';
+import { randInt } from './../../util';
 
-const handler = (req: Request, res: Response) => {
+const router = express.Router();
+
+router.post('/', (req: Request, res: Response) => {
   try {
     const answer = answers[randInt(0, answers.length - 1)];
     const { body } = req;
@@ -37,6 +40,6 @@ const handler = (req: Request, res: Response) => {
     console.error(e);
     res.status(500).send('error');
   }
-};
+});
 
-export default handler;
+export default router;
