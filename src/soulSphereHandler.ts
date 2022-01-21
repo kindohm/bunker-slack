@@ -11,12 +11,39 @@ const getRandomSentence = async () => {
   return grammar.flatten('#origin#');
 };
 
+const adverbs = [
+  '',
+  '',
+  '',
+  'gently ',
+  'violently ',
+  'carelessly ',
+  'carefully ',
+  'knowingly ',
+];
+const verbs = [
+  'shakes',
+  'caresses',
+  'rubs',
+  'rolls',
+  'tosses',
+  'juggles',
+  'looks at',
+  'peers into',
+];
+
+const getShakeText = (user_name: string, text: string): string => {
+  const adverb = adverbs[randInt(0, adverbs.length - 1)];
+  const verb = verbs[randInt(0, verbs.length - 1)];
+  return `${user_name} ${adverb}${verb} the soul sphere and asks "${text}"`;
+};
+
 const handler = async (req: Request, res: Response) => {
   try {
     const { body } = req;
-    const { user_name } = body;
+    const { text, user_name }: { text: string; user_name: string } = body;
     const sentence = await getRandomSentence();
-
+    const shakeText = getShakeText(user_name, text);
     const slackResponse = {
       response_type: 'in_channel',
       blocks: [
@@ -24,7 +51,7 @@ const handler = async (req: Request, res: Response) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `_${user_name} shakes the Soul Sphere_`,
+            text: `_${shakeText}_`,
           },
         },
         {
@@ -45,5 +72,4 @@ const handler = async (req: Request, res: Response) => {
   }
 };
 
-//module.exports = handler;
 export default handler;

@@ -39,5 +39,4 @@ const handler = (req: Request, res: Response) => {
   }
 };
 
-// module.exports = handler;
 export default handler;

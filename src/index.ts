@@ -1,4 +1,3 @@
-//const express = require('express');
 import express from 'express';
 import bodyParser from 'body-parser';
 import magic8ballHandler from './magic8ballHandler';
