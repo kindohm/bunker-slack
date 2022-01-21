@@ -1,9 +1,11 @@
-const express = require('express');
+//const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import magic8ballHandler from './magic8ballHandler';
+import soulSphereHandler from './soulSphereHandler';
+
 const app = express();
 const port = 5150;
-const bodyParser = require('body-parser');
-const magic8ballHandler = require('./magic8ballHandler');
-const soulSphereHandler = require('./soulSphereHandler');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

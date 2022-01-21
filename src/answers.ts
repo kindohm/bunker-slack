@@ -1,5 +1,5 @@
 // sourced from https://en.wikipedia.org/wiki/Magic_8-ball
-const answers = [
+export default [
   'It is certain.',
   'It is decidedly so.',
   'Without a doubt.',
@@ -24,5 +24,3 @@ const answers = [
   'Outlook not so good.',
   'Very doubtful. ',
 ];
-
-module.exports = answers;

@@ -432,7 +432,7 @@ const structure5 = {
   ],
 };
 
-module.exports = [
+export default [
   structure1,
   structure2,
   structure2,

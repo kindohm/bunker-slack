@@ -1,7 +1,8 @@
-const answers = require('./answers');
-const { randInt } = require('./util');
+import { Request, Response } from 'express';
+import answers from './answers';
+import { randInt } from './util';
 
-const handler = (req, res) => {
+const handler = (req: Request, res: Response) => {
   try {
     const answer = answers[randInt(0, answers.length - 1)];
     const { body } = req;
@@ -38,4 +39,5 @@ const handler = (req, res) => {
   }
 };
 
-module.exports = handler;
+// module.exports = handler;
+export default handler;

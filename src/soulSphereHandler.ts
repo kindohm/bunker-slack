@@ -1,6 +1,7 @@
-const tracery = require('tracery-grammar');
-const { randInt } = require('./util');
-const structures = require('./structures');
+import tracery from 'tracery-grammar';
+import { randInt } from './util';
+import structures from './structures';
+import { Request, Response } from 'express';
 
 const getRandomSentence = async () => {
   const grammar = tracery.createGrammar(
@@ -10,7 +11,7 @@ const getRandomSentence = async () => {
   return grammar.flatten('#origin#');
 };
 
-const handler = async (req, res) => {
+const handler = async (req: Request, res: Response) => {
   try {
     const { body } = req;
     const { user_name } = body;
@@ -44,4 +45,5 @@ const handler = async (req, res) => {
   }
 };
 
-module.exports = handler;
+//module.exports = handler;
+export default handler;
