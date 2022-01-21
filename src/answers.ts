@@ -1,5 +1,5 @@
 // sourced from https://en.wikipedia.org/wiki/Magic_8-ball
-export default [
+const answers: Array<string> = [
   'It is certain.',
   'It is decidedly so.',
   'Without a doubt.',
@@ -24,3 +24,5 @@ export default [
   'Outlook not so good.',
   'Very doubtful. ',
 ];
+
+export default answers;

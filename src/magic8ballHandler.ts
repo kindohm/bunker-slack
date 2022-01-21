@@ -9,7 +9,7 @@ const handler = (req: Request, res: Response) => {
 
     console.log('incoming request', body);
 
-    const { text, user_name } = body;
+    const { text, user_name }: { text: string; user_name: string } = body;
 
     const slackResponse = {
       response_type: 'in_channel',
