@@ -50,7 +50,7 @@ const structure4 = {
 };
 
 const structure5 = {
-  character: ['anakin', 'obiwan', 'vader', 'palpatine', 'the emperor', 'fasma', 'rey', 'han', 'boba fett', 'po', 'finn',
+  character: ['anakin', 'obiwan', 'vader', 'palpatine', 'the emperor', 'fasma', 'rey', 'han', 'boba fett', 'poe', 'finn',
 'chewie', 'leia', 'luke', 'tarkin', 'kylo', 'jabba', 'yoda', 'r2d2', 'bb8', 'padme', '#character# and #character#',  ],
   obj: ['blaster', 'light saber', 'force', 'thermal detonator', 'falcon', 'death star', 'star destroyer', 'x-wing', 'AT-AT', 'ion canon', 'emperor', 'dark side',  ],
   goalverb: ['save', 'kill', 'destroy', 'create an alliance with'],

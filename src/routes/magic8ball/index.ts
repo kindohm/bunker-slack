@@ -1,17 +1,14 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import answers from './answers';
-import { randInt } from './../../util';
+import { getRandItem } from './../../util';
 
 const router = express.Router();
 
 router.post('/', (req: Request, res: Response) => {
   try {
-    const answer = answers[randInt(0, answers.length - 1)];
+    const answer = getRandItem(answers);
     const { body } = req;
-
-    console.log('incoming request', body);
-
     const { text, user_name }: { text: string; user_name: string } = body;
 
     const slackResponse = {

@@ -1,6 +1,6 @@
-import { randInt } from './../../util';
+import { getRandItem } from './../../util';
 
-const adverbs = [
+const adverbs: Array<string> = [
   '',
   '',
   '',
@@ -10,7 +10,7 @@ const adverbs = [
   'carefully ',
   'knowingly ',
 ];
-const verbs = [
+const verbs: Array<string> = [
   'shakes',
   'caresses',
   'rubs',
@@ -22,8 +22,8 @@ const verbs = [
 ];
 
 const getShakeText = (user_name: string, text: string): string => {
-  const adverb = adverbs[randInt(0, adverbs.length - 1)];
-  const verb = verbs[randInt(0, verbs.length - 1)];
+  const adverb = getRandItem(adverbs);
+  const verb = getRandItem(verbs);
   return `${user_name} ${adverb}${verb} the soul sphere and asks "${text}"`;
 };
 

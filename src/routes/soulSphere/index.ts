@@ -1,6 +1,6 @@
 import express from 'express';
 import tracery from 'tracery-grammar';
-import { randInt } from './../../util';
+import { getRandItem } from './../../util';
 import structures from './structures';
 import { Request, Response } from 'express';
 import getShakeText from './getShakeText';
@@ -8,9 +8,7 @@ import getShakeText from './getShakeText';
 const router = express.Router();
 
 const getRandomSentence = async () => {
-  const grammar = tracery.createGrammar(
-    structures[randInt(0, structures.length - 1)]
-  );
+  const grammar = tracery.createGrammar(getRandItem(structures));
   grammar.addModifiers(tracery.baseEngModifiers);
   return grammar.flatten('#origin#');
 };
