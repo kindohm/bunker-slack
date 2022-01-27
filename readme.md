@@ -3,8 +3,8 @@ Magic 8 ball implementation for boonkah.
 ## Local development
 
 ```
-npm install
-npm run start
+yarn
+yarn run dev
 ```
 
 On commit, a `husky` pre-commit hook is used to auto-prettify
