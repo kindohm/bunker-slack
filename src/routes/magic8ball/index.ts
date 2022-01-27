@@ -8,8 +8,6 @@ const router = express.Router();
 router.post('/', (req: Request, res: Response) => {
   try {
     const answer = getRandItem(answers);
-    const { body } = req;
-    const { text, user_name }: { text: string; user_name: string } = body;
 
     const slackResponse = {
       response_type: 'in_channel',

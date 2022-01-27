@@ -3,7 +3,6 @@ import tracery from 'tracery-grammar';
 import { getRandItem } from './../../util';
 import structures from './structures';
 import { Request, Response } from 'express';
-import getShakeText from './getShakeText';
 
 const router = express.Router();
 
@@ -15,10 +14,7 @@ const getRandomSentence = async () => {
 
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { body } = req;
-    const { text, user_name }: { text: string; user_name: string } = body;
     const sentence = await getRandomSentence();
-    const shakeText = getShakeText(user_name, text);
     const slackResponse = {
       response_type: 'in_channel',
       blocks: [
