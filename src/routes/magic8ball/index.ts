@@ -18,13 +18,6 @@ router.post('/', (req: Request, res: Response) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `_${user_name} shakes the magic 8 ball and asks \"${text}\"_`,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
             text: `${answer}`,
           },
         },

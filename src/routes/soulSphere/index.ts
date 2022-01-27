@@ -26,13 +26,6 @@ router.post('/', async (req: Request, res: Response) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `_${shakeText}_`,
-          },
-        },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
             text: sentence,
           },
         },
