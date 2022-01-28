@@ -8,7 +8,7 @@ There are two slash-commands:
 
 `/soulsphere [question]`
 
-Each slash-command corresponds to a route in this repo under `src/routes/`;
+Each slash-command corresponds to a route in this repo under `src/routes/`.
 
 ## Local development
 
