@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', (req: Request, res: Response) => {
   try {
     const { body } = req;
-    const { response_url, text, user_name } = body;
+    const { response_url, text } = body;
 
     if (response_url) {
       console.log('response_url', response_url);
