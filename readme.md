@@ -1,4 +1,14 @@
-Magic 8 ball implementation for boonkah.
+Bunkerchat balls.
+
+## Usage in Slack
+
+There are two slash-commands:
+
+`/magic8ball [question]`
+
+`/soulsphere [question]`
+
+Each slash-command corresponds to a route in this repo under `src/routes/`;
 
 ## Local development
 
