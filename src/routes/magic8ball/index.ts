@@ -36,6 +36,7 @@ router.post('/', (req: Request, res: Response) => {
       console.log('answer', answer);
       // must send empty response immediately
       res.status(200).send(EMPTY_RESPONSE);
+      console.log(`sending response in ${DELAY_TIME}ms`);
 
       // send actual Magic 8 Ball answer in the future
       setTimeout(async () => {
@@ -43,7 +44,10 @@ router.post('/', (req: Request, res: Response) => {
           await axios.post(response_url, slackResponse);
         } catch (err) {
           console.error('error posting to response_url');
-          console.error(err);
+          console.error(err.response.status);
+          console.error(err.response.statusText);
+          console.error(err.request.path);
+          console.error(err.response.data);
         }
       }, DELAY_TIME);
     } else {
