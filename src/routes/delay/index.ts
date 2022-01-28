@@ -37,15 +37,6 @@ router.post('/', (req: Request, res: Response) => {
 
     const immediateResponse = {
       response_type: 'in_channel',
-      blocks: [
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `${user_name} shakes the magic 8 ball and asks "${text}"`,
-          },
-        },
-      ],
     };
 
     res.status(200).send(immediateResponse);
