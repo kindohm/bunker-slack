@@ -13,10 +13,19 @@ router.post('/', (req: Request, res: Response) => {
       console.log('response_url', response_url);
       setTimeout(async () => {
         try {
-          const payload = {
-            text: 'heeeeyyyyyyyy',
+          const slackResponse = {
+            response_type: 'in_channel',
+            blocks: [
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `this is your answer`,
+                },
+              },
+            ],
           };
-          await axios.post(response_url, payload);
+          await axios.post(response_url, slackResponse);
         } catch (err) {
           console.error('error on delayed POST');
           console.error(err);
@@ -26,7 +35,7 @@ router.post('/', (req: Request, res: Response) => {
       console.log('no response url!');
     }
 
-    res.status(200).send('OK');
+    res.status(200).send();
   } catch (e) {
     console.error('an error occurred');
     console.error(e);
