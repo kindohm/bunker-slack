@@ -25,6 +25,7 @@ export const sendDelayedResponse = (
     setTimeout(async () => {
       try {
         await axios.post(response_url, responseBody);
+        console.log('success.');
       } catch (err) {
         console.error('error posting to response_url', response_url);
         console.error('attempted esponse body', responseBody);

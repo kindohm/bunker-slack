@@ -3,6 +3,7 @@ import tracery from 'tracery-grammar';
 import { getRandItem } from './../../util';
 import structures from './structures';
 import { Request, Response } from 'express';
+import { sendDelayedResponse } from './../../delayedResponse';
 
 const router = express.Router();
 
@@ -14,8 +15,12 @@ const getRandomSentence = async () => {
 
 router.post('/', async (req: Request, res: Response) => {
   try {
+    console.log('/soulsphere');
+    const { body } = req;
+    const { response_url, text, user_name } = body;
     const sentence = await getRandomSentence();
-    const slackResponse = {
+    console.log({ user_name, text, sentence });
+    const responseBody = {
       response_type: 'in_channel',
       blocks: [
         {
@@ -28,7 +33,7 @@ router.post('/', async (req: Request, res: Response) => {
       ],
     };
 
-    res.json(slackResponse);
+    sendDelayedResponse({ res, response_url, responseBody });
   } catch (e) {
     console.error('an error occurred');
     console.error(e);
