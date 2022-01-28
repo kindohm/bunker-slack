@@ -1,1 +1,1 @@
-export const delayTime = 3000;
+export const delayTime: number = 3000;
