@@ -1,15 +1,10 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
+import { IGame, createGame, guess } from './game';
 
 const MAX_GUESSES = 5;
 const router = express.Router();
-
-interface IGame {
-  username: string;
-  word: string;
-  guesses: string[];
-}
 
 interface IGames {
   [key: string]: IGame;
@@ -22,7 +17,7 @@ const handleNewGameRequest = (
   response_url: string,
   username: string
 ) => {
-  const game: IGame = { username, word: 'the', guesses: [] };
+  const game: IGame = createGame(username);
 
   games[username] = game;
 
@@ -46,12 +41,9 @@ const handleGuess = (
   res: Response,
   response_url: string,
   game: IGame,
-  username: string,
   text: string
 ) => {
-  const guesses = [...game.guesses, text];
-  const updatedGame = { ...game, guesses };
-  games[username] = updatedGame;
+  guess(game, text);
 
   const responseBody = {
     response_type: 'in_channel',
@@ -60,14 +52,14 @@ const handleGuess = (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `${username} guessed ${text}.`,
+          text: `${game.username} guessed ${text}.`,
         },
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: guesses.join(', '),
+          text: game.guesses.join(', '),
         },
       },
     ],
@@ -87,7 +79,7 @@ router.post('/', (req: Request, res: Response) => {
       return handleNewGameRequest(res, response_url, user_name);
     }
 
-    return handleGuess(res, response_url, game, user_name, text);
+    return handleGuess(res, response_url, game, text);
   } catch (e) {
     console.error('an error occurred');
     console.error(e);
