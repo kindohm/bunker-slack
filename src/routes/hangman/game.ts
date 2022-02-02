@@ -96,7 +96,9 @@ export const getGameDisplay = (game: IGame): string => {
   const chars = game.word.split('');
   return chars
     .map((c, i): string => {
-      return game.matches[i] ? c : separator;
+      return game.state !== GameState.InProgress || game.matches[i]
+        ? c.toUpperCase()
+        : separator;
     })
     .join(' ');
 };

@@ -140,20 +140,32 @@ describe('game', () => {
         const game = createGame('', 'asdf');
         game.matches = [false, true, false, false];
         const display = getGameDisplay(game);
-        expect(display).toEqual('_ s _ _');
+        expect(display).toEqual('_ S _ _');
       });
 
       it('should show letter at multiple match position', () => {
         const game = createGame('', 'asdf');
         game.matches = [false, true, false, true];
         const display = getGameDisplay(game);
-        expect(display).toEqual('_ s _ f');
+        expect(display).toEqual('_ S _ F');
       });
 
       it('should show correct display for a longer word', () => {
         const game = createGame('hank', 'bunker');
         const display = getGameDisplay(game);
         expect(display).toEqual('_ _ _ _ _ _');
+      });
+
+      it('should show result word if game is over', () => {
+        let game = createGame('hank', 'bunker');
+        game = guess(game, 'x');
+        game = guess(game, 'x');
+        game = guess(game, 'x');
+        game = guess(game, 'x');
+        game = guess(game, 'x');
+        game = guess(game, 'x');
+        const display = getGameDisplay(game);
+        expect(display).toEqual('B U N K E R');
       });
     });
   });
