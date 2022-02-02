@@ -64,11 +64,16 @@ const handleNewGameRequest = (
 ) => {
   const game: IGame = createGame(username, randomWord());
 
-  console.log('started new game:', username);
+  console.log('started new game:', username, game.word);
 
   games[username] = game;
 
-  console.log('current game count:', Object.keys(games).length);
+  console.log(
+    'current games:',
+    Object.keys(games)
+      .map((k) => k)
+      .join(', ')
+  );
 
   const responseBody = {
     response_type: 'in_channel',
@@ -93,6 +98,7 @@ const handleGuess = (
   game: IGame,
   text: string
 ) => {
+  console.log(`${game.username} guessed ${text}`);
   const sanitized = text.toLowerCase();
   const isValidGuess = /^[a-z]+$/.test(sanitized);
   if (!isValidGuess) {
@@ -117,8 +123,6 @@ const handleGuess = (
 
   games[updatedGame.username] = updatedGame;
 
-  const display = getGameDisplay(updatedGame);
-
   const responseBody = {
     response_type: 'in_channel',
     blocks: [
@@ -133,6 +137,7 @@ const handleGuess = (
     updatedGame.state === GameState.Win ||
     updatedGame.state === GameState.Lose
   ) {
+    console.log('game over', updatedGame.username, updatedGame.state);
     responseBody.blocks.push(
       updatedGame.state === GameState.Win
         ? getWinBlock(updatedGame)

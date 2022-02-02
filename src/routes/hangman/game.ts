@@ -29,7 +29,6 @@ export const createGame = (
   username: string,
   word: string = 'bunker'
 ): IGame => {
-  console.log('starting new game', username, word);
   const game: IGame = {
     username,
     word,

@@ -19,16 +19,13 @@ export const sendDelayedResponse = (
   const time = delay || delayTime;
 
   if (response_url) {
-    console.log('response_url', response_url);
     // must send empty response immediately
     res.status(200).send(EMPTY_RESPONSE);
-    console.log(`sending response in ${delayTime}ms`);
 
     // send actual Magic 8 Ball answer in the future
     setTimeout(async () => {
       try {
         await axios.post(response_url, responseBody);
-        console.log('success.');
       } catch (err) {
         console.error('error posting to response_url', response_url);
         console.error('attempted esponse body', responseBody);
