@@ -47,14 +47,15 @@ const getMatchResult = (
   matches: boolean[]
 ): IMatchResult => {
   if (guess.length <= 1) {
-    const idx = word.indexOf(guess);
-    if (idx !== -1) {
-      return {
-        matches: Object.assign([], matches, { [idx]: true }),
-        isMatch: true,
-      };
-    }
-    return { matches, isMatch: false };
+    const reg = new RegExp(guess, 'g');
+    const regexMatches = [...word.matchAll(reg)];
+
+    const newMatches = regexMatches.reduce((newMatchesLocal, guessMatch) => {
+      const { index } = guessMatch;
+      return Object.assign([], newMatchesLocal, { [index]: true });
+    }, matches);
+
+    return { matches: newMatches, isMatch: regexMatches.length > 0 };
   }
 
   if (guess === word) {
@@ -64,7 +65,7 @@ const getMatchResult = (
   return { matches, isMatch: false };
 };
 
-export const guess = (game: IGame, guess: string): IGame => {
+export const guess = (game: IGame, guess: string = ' '): IGame => {
   const { word, guesses, matches, state, badGuessCount } = game;
   if (state !== GameState.InProgress) {
     throw new Error('Cannot guess when game is over.');

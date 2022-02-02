@@ -56,7 +56,7 @@ describe('game', () => {
         const game4 = guess(game3, 'z');
         const game5 = guess(game4, 'u');
         const game6 = guess(game5, 'q');
-        const game7 = guess(game6, '*');
+        const game7 = guess(game6, 'w');
         expect(game7.state).toEqual(GameState.Lose);
       });
 
@@ -154,6 +154,13 @@ describe('game', () => {
         const game = createGame('hank', 'bunker');
         const display = getGameDisplay(game);
         expect(display).toEqual('_ _ _ _ _ _');
+      });
+
+      it('should show correct display for word with double letters', () => {
+        let game = createGame('hank', 'purple');
+        game = guess(game, 'p');
+        const display = getGameDisplay(game);
+        expect(display).toEqual('P _ _ P _ _');
       });
 
       it('should show result word if game is over', () => {

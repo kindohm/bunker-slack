@@ -45,7 +45,7 @@ const getGuessesBlock = (game: IGame) => {
   const remaining = MaxGuesses - badGuessCount;
   return getBlock(
     `guesses: ${guesses
-      .map((g) => g.guess)
+      .map((g) => g.guess.toUpperCase())
       .join(', ')} (${remaining} remaining)`
   );
 };
