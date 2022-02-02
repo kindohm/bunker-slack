@@ -40,6 +40,15 @@ const getWordDisplayBlock = (wordDisplay: string) => {
   return getBlock(`word: ${wordDisplay}`, 'plain_text');
 };
 
+const getSingleLineDisplayBlock = (game: IGame) => {
+  const emoticon = `:hangman${game.badGuessCount}:`;
+  const display = getGameDisplay(game);
+  const guesses = `[${game.guesses
+    .map((g) => g.guess.toUpperCase())
+    .join(', ')}]`;
+  return getBlock(`${emoticon} ${display} ${guesses}`, 'plain_text');
+};
+
 const getGuessesBlock = (game: IGame) => {
   const { guesses, badGuessCount } = game;
   const remaining = MaxGuesses - badGuessCount;
@@ -87,7 +96,7 @@ const handleNewGameRequest = (
     blocks: [
       getHeaderBlock(game),
       getStartBlock(game),
-      getWordDisplayBlock(display),
+      getSingleLineDisplayBlock(game),
     ],
   };
 
@@ -113,8 +122,7 @@ const handleGuess = (
       blocks: [
         getHeaderBlock(game),
         getBlock(`_"${text}" is not a valid guess. Try only using letters._`),
-        getWordDisplayBlock(getGameDisplay(game)),
-        getGuessesBlock(game),
+        getSingleLineDisplayBlock(game),
       ],
     };
 
@@ -136,8 +144,7 @@ const handleGuess = (
     response_type: 'in_channel',
     blocks: [
       getHeaderBlock(updatedGame),
-      getWordDisplayBlock(display),
-      getGuessesBlock(updatedGame),
+      getSingleLineDisplayBlock(updatedGame),
     ],
   };
 
