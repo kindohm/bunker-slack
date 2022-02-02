@@ -44,9 +44,11 @@ const getGuessesBlock = (game: IGame) => {
   const { guesses, badGuessCount } = game;
   const remaining = MaxGuesses - badGuessCount;
   return getBlock(
-    `guesses: ${guesses
-      .map((g) => g.guess.toUpperCase())
-      .join(', ')} (${remaining} remaining)`
+    `guesses: ${
+      guesses.length > 0
+        ? guesses.map((g) => g.guess.toUpperCase()).join(', ')
+        : 'None'
+    } (${remaining} remaining)`
   );
 };
 
@@ -103,7 +105,28 @@ const handleGuess = (
   game: IGame,
   text: string
 ) => {
-  const updatedGame = guess(game, text);
+  const sanitized = text.toLowerCase();
+  const isValidGuess = /^[a-z]+$/.test(sanitized);
+  if (!isValidGuess) {
+    const invalidBody = {
+      response_type: 'in_channel',
+      blocks: [
+        getHeaderBlock(game),
+        getBlock(`_"${text}" is not a valid guess. Try only using letters._`),
+        getWordDisplayBlock(getGameDisplay(game)),
+        getGuessesBlock(game),
+      ],
+    };
+
+    return sendDelayedResponse({
+      res,
+      response_url,
+      responseBody: invalidBody,
+      delay: responseDelay,
+    });
+  }
+
+  const updatedGame = guess(game, sanitized);
 
   games[updatedGame.username] = updatedGame;
 
