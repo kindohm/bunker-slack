@@ -54,12 +54,12 @@ const getGuessesBlock = (game: IGame) => {
 
 const getWinBlock = (game: IGame) => {
   const { username } = game;
-  return getBlock(`${username} wins!`);
+  return getBlock(`${username} wins! 🎉`);
 };
 
 const getLoseBlock = (game: IGame) => {
   const { username } = game;
-  return getBlock(`${username} loses.`);
+  return getBlock(`${username} loses. 👎`);
 };
 
 const getStartBlock = (game: IGame) => {
