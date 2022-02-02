@@ -20,7 +20,7 @@ export const sendDelayedResponse = (
 
   if (response_url) {
     // must send empty response immediately
-    res.status(200).send(EMPTY_RESPONSE);
+    res.status(200).send();
 
     // send actual Magic 8 Ball answer in the future
     setTimeout(async () => {
