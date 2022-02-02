@@ -68,7 +68,6 @@ const handleNewGameRequest = (
 
   const responseBody = {
     response_type: 'in_channel',
-    replace_original: true,
     blocks: [getSingleLineDisplayBlock(game)],
   };
 
@@ -94,7 +93,6 @@ const handleGuess = (
   if (!isValidGuess) {
     const invalidBody = {
       response_type: 'in_channel',
-      replace_original: true,
       blocks: [getSingleLineDisplayBlock(game)],
     };
 
@@ -112,7 +110,6 @@ const handleGuess = (
 
   const responseBody = {
     response_type: 'in_channel',
-    replace_original: true,
     blocks: [getSingleLineDisplayBlock(updatedGame)],
   };
 
