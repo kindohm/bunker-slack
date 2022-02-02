@@ -7,7 +7,9 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "prepare": "husky install",
-    "prettify-staged": "pretty-quick --staged"
+    "prettify-staged": "pretty-quick --staged",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Mike Hodnick <mike@kindohm.com>",
   "license": "MIT",
@@ -19,10 +21,16 @@
     "tracery-grammar": "2.7.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@types/express": "4.17.13",
+    "@types/jest": "^27.4.0",
     "@types/node": "17.0.10",
     "@types/tracery-grammar": "2.7.1",
+    "babel-jest": "^27.4.6",
     "husky": "7.0.0",
+    "jest": "^27.4.7",
     "nodemon": "2.0.15",
     "prettier": "^2.5.1",
     "pretty-quick": "3.1.3",
