@@ -1,9 +1,8 @@
-import express, { response } from 'express';
+import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { IGame, createGame, guess, getGameDisplay, GameState } from './game';
 
-const MAX_GUESSES = 5;
 const router = express.Router();
 
 interface IGames {
@@ -65,21 +64,11 @@ const handleGuess = (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `${newGame.username} guessed ${text}.`,
-        },
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `\`${display}\``,
-        },
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: newGame.guesses.map((g) => g.guess).join(', '),
+          text: `\`${
+            newGame.username
+          }/hangman> ${display} | guesses: ${newGame.guesses
+            .map((g) => g.guess)
+            .join(', ')}\``,
         },
       },
     ],
@@ -88,13 +77,13 @@ const handleGuess = (
   if (newGame.state === GameState.Win) {
     responseBody.blocks.push({
       type: 'section',
-      text: { type: 'mrkdwn', text: 'Win!!!' },
+      text: { type: 'mrkdwn', text: `${newGame.username} wins!` },
     });
     games[game.username] = undefined;
   } else if (newGame.state === GameState.Lose) {
     responseBody.blocks.push({
       type: 'section',
-      text: { type: 'mrkdwn', text: 'Lose!!!' },
+      text: { type: 'mrkdwn', text: `${newGame.username} loses.` },
     });
 
     games[game.username] = undefined;
