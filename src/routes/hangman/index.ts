@@ -13,6 +13,44 @@ interface IGames {
 
 let games: IGames = {};
 
+const getBlock = (text: string, type: string = 'mrkdwn') => {
+  return {
+    type: 'section',
+    text: {
+      type,
+      text,
+    },
+  };
+};
+
+const getHeaderBlock = () => {
+  return getBlock('*Hangman™*');
+};
+
+const getWordDisplayBlock = (wordDisplay: string) => {
+  return getBlock(`word: ${wordDisplay}`, 'plain_text');
+};
+
+const getGuessesBlock = (game: IGame) => {
+  const { guesses } = game;
+  return getBlock(`guesses: ${guesses.map((g) => g.guess).join(', ')}`);
+};
+
+const getWinBlock = (game: IGame) => {
+  const { username } = game;
+  return getBlock(`${username} wins!`);
+};
+
+const getLoseBlock = (game: IGame) => {
+  const { username } = game;
+  return getBlock(`${username} loses.`);
+};
+
+const getStartBlock = (game: IGame) => {
+  const { username } = game;
+  return getBlock(`${username} started a new game of Hangman™.`);
+};
+
 const handleNewGameRequest = (
   res: Response,
   response_url: string,
@@ -26,20 +64,9 @@ const handleNewGameRequest = (
   const responseBody = {
     response_type: 'in_channel',
     blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `${username} started a new game of hangman.`,
-        },
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'plain_text',
-          text: `word: ${display}`,
-        },
-      },
+      getHeaderBlock(),
+      getStartBlock(game),
+      getWordDisplayBlock(display),
     ],
   };
 
@@ -59,7 +86,6 @@ const handleGuess = (
 ) => {
   const newGame = guess(game, text);
 
-  console.log('newGame', newGame);
   games[newGame.username] = newGame;
 
   const display = getGameDisplay(newGame);
@@ -67,35 +93,17 @@ const handleGuess = (
   const responseBody = {
     response_type: 'in_channel',
     blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'plain_text',
-          text: `word: ${display}`,
-        },
-      },
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `guesses: ${newGame.guesses.map((g) => g.guess).join(', ')}`,
-        },
-      },
+      getHeaderBlock(),
+      getWordDisplayBlock(display),
+      getGuessesBlock(newGame),
     ],
   };
 
   if (newGame.state === GameState.Win) {
-    responseBody.blocks.push({
-      type: 'section',
-      text: { type: 'mrkdwn', text: `${newGame.username} wins!` },
-    });
+    responseBody.blocks.push(getWinBlock(newGame));
     games[game.username] = undefined;
   } else if (newGame.state === GameState.Lose) {
-    responseBody.blocks.push({
-      type: 'section',
-      text: { type: 'mrkdwn', text: `${newGame.username} loses.` },
-    });
-
+    responseBody.blocks.push(getLoseBlock(newGame));
     games[game.username] = undefined;
   }
 
