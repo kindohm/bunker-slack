@@ -24,11 +24,6 @@ const getBlock = (text: string, type: string = 'mrkdwn') => {
   };
 };
 
-const getHeaderBlock = (game: IGame) => {
-  const { username } = game;
-  return getBlock(`*Hangman™* (${username})`);
-};
-
 const getSingleLineDisplayBlock = (game: IGame) => {
   const emoticon = `:hangman${game.badGuessCount}:`;
   const display = getGameDisplay(game);
@@ -39,23 +34,24 @@ const getSingleLineDisplayBlock = (game: IGame) => {
   const guesses = `[${badGuesses
     .map((g) => g.guess.toUpperCase())
     .join(', ')}]`;
-  return getBlock(`${emoticon} ${display} ${guesses}`, 'plain_text');
+
+  const userText =
+    game.state === GameState.InProgress
+      ? `(${game.username})`
+      : game.state === GameState.Win
+      ? `${game.username} wins! 🎉`
+      : `${game.username} loses. 👎`;
+
+  return getBlock(
+    `Hangman™ ${emoticon} ${display} ${guesses} ${userText}`,
+    'plain_text'
+  );
 };
 
-const getWinBlock = (game: IGame) => {
-  const { username } = game;
-  return getBlock(`${username} wins! 🎉`);
-};
-
-const getLoseBlock = (game: IGame) => {
-  const { username } = game;
-  return getBlock(`${username} loses. 👎`);
-};
-
-const getStartBlock = (game: IGame) => {
-  const { username } = game;
-  return getBlock(`${username} started a new game of Hangman™.`);
-};
+// const getStartBlock = (game: IGame) => {
+//   const { username } = game;
+//   return getBlock(`Hangman™ game started by ${username}.`);
+// };
 
 const handleNewGameRequest = (
   res: Response,
@@ -77,11 +73,7 @@ const handleNewGameRequest = (
 
   const responseBody = {
     response_type: 'in_channel',
-    blocks: [
-      getHeaderBlock(game),
-      getStartBlock(game),
-      getSingleLineDisplayBlock(game),
-    ],
+    blocks: [getSingleLineDisplayBlock(game)],
   };
 
   sendDelayedResponse({
@@ -99,16 +91,14 @@ const handleGuess = (
   text: string
 ) => {
   console.log(`${game.username} guessed ${text}`);
+
   const sanitized = text.toLowerCase();
   const isValidGuess = /^[a-z]+$/.test(sanitized);
+
   if (!isValidGuess) {
     const invalidBody = {
       response_type: 'in_channel',
-      blocks: [
-        getHeaderBlock(game),
-        getBlock(`_"${text}" is not a valid guess. Try only using letters._`),
-        getSingleLineDisplayBlock(game),
-      ],
+      blocks: [getSingleLineDisplayBlock(game)],
     };
 
     return sendDelayedResponse({
@@ -125,10 +115,7 @@ const handleGuess = (
 
   const responseBody = {
     response_type: 'in_channel',
-    blocks: [
-      getHeaderBlock(updatedGame),
-      getSingleLineDisplayBlock(updatedGame),
-    ],
+    blocks: [getSingleLineDisplayBlock(updatedGame)],
   };
 
   // if game is over, add final message to response, and
@@ -138,11 +125,11 @@ const handleGuess = (
     updatedGame.state === GameState.Lose
   ) {
     console.log('game over', updatedGame.username, updatedGame.state);
-    responseBody.blocks.push(
-      updatedGame.state === GameState.Win
-        ? getWinBlock(updatedGame)
-        : getLoseBlock(updatedGame)
-    );
+    // responseBody.blocks.push(
+    //   updatedGame.state === GameState.Win
+    //     ? getWinBlock(updatedGame)
+    //     : getLoseBlock(updatedGame)
+    // );
     games = { ...games, [game.username]: undefined };
   }
 
