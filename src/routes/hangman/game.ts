@@ -87,11 +87,13 @@ export const guess = (game: IGame, guess: string): IGame => {
   };
 };
 
+export const separator = '_';
+
 export const getGameDisplay = (game: IGame): string => {
   const chars = game.word.split('');
   return chars
     .map((c, i): string => {
-      return game.matches[i] ? c : '_';
+      return game.matches[i] ? c : separator;
     })
     .join(' ');
 };
