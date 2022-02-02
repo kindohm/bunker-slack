@@ -9,8 +9,6 @@ interface IDelayedResponseArgs {
   delay?: number;
 }
 
-const EMPTY_RESPONSE = { response_type: 'in_channel' };
-
 export const sendDelayedResponse = (
   delayedResponseArgs: IDelayedResponseArgs
 ) => {

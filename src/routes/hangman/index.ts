@@ -31,9 +31,10 @@ const getSingleLineDisplayBlock = (game: IGame) => {
     return !g.isMatch;
   });
 
-  const guesses = `[${badGuesses
-    .map((g) => g.guess.toUpperCase())
-    .join(', ')}]`;
+  const guesses =
+    badGuesses.length > 0
+      ? `[${badGuesses.map((g) => g.guess.toUpperCase()).join(', ')}] `
+      : '';
 
   const userText =
     game.state === GameState.InProgress
@@ -43,7 +44,7 @@ const getSingleLineDisplayBlock = (game: IGame) => {
       : `${game.username} loses. 👎`;
 
   return getBlock(
-    `Hangman™ ${emoticon} ${display} ${guesses} ${userText}`,
+    `Hangman™ ${emoticon} ${display} ${guesses}${userText}`,
     'plain_text'
   );
 };
