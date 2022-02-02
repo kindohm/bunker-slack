@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { IGame, createGame, guess, getGameDisplay, GameState } from './game';
 
+const responseDelay = 500;
+
 const router = express.Router();
 
 interface IGames {
@@ -35,13 +37,18 @@ const handleNewGameRequest = (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `\`${display}\``,
+          text: `word: ${display}`,
         },
       },
     ],
   };
 
-  sendDelayedResponse({ res, response_url, responseBody });
+  sendDelayedResponse({
+    res,
+    response_url,
+    responseBody,
+    delay: responseDelay,
+  });
 };
 
 const handleGuess = (
@@ -64,11 +71,14 @@ const handleGuess = (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `\`${
-            newGame.username
-          }/hangman> ${display} | guesses: ${newGame.guesses
-            .map((g) => g.guess)
-            .join(', ')}\``,
+          text: `word: ${display}`,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `guesses: ${newGame.guesses.map((g) => g.guess).join(', ')}`,
         },
       },
     ],
@@ -89,7 +99,12 @@ const handleGuess = (
     games[game.username] = undefined;
   }
 
-  sendDelayedResponse({ res, response_url, responseBody });
+  sendDelayedResponse({
+    res,
+    response_url,
+    responseBody,
+    delay: responseDelay,
+  });
 };
 
 router.post('/', (req: Request, res: Response) => {

@@ -6,6 +6,7 @@ interface IDelayedResponseArgs {
   res: Response;
   response_url: string;
   responseBody: any;
+  delay?: number;
 }
 
 const EMPTY_RESPONSE = { response_type: 'in_channel' };
@@ -13,7 +14,9 @@ const EMPTY_RESPONSE = { response_type: 'in_channel' };
 export const sendDelayedResponse = (
   delayedResponseArgs: IDelayedResponseArgs
 ) => {
-  const { res, response_url, responseBody } = delayedResponseArgs;
+  const { res, response_url, responseBody, delay } = delayedResponseArgs;
+
+  const time = delay || delayTime;
 
   if (response_url) {
     console.log('response_url', response_url);
@@ -34,7 +37,7 @@ export const sendDelayedResponse = (
         console.error(err.request.path);
         console.error(err.response.data);
       }
-    }, delayTime);
+    }, time);
   } else {
     console.warn('there was no response_url');
     res.json(responseBody);

@@ -26,7 +26,7 @@ interface IMatchResult {
 }
 
 export const createGame = (username: string, word?: string): IGame => {
-  const w = word || 'the';
+  const w = word || 'bunker';
   const game: IGame = {
     username,
     word: w,
@@ -93,5 +93,5 @@ export const getGameDisplay = (game: IGame): string => {
     .map((c, i): string => {
       return game.matches[i] ? c : '_';
     })
-    .join('');
+    .join(' ');
 };

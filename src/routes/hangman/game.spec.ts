@@ -133,21 +133,21 @@ describe('game', () => {
       it('should show all underscores when no matches', () => {
         const game = createGame('', 'asdf');
         const display = getGameDisplay(game);
-        expect(display).toEqual('____');
+        expect(display).toEqual('_ _ _ _');
       });
 
       it('should show letter at single match position', () => {
         const game = createGame('', 'asdf');
         game.matches = [false, true, false, false];
         const display = getGameDisplay(game);
-        expect(display).toEqual('_s__');
+        expect(display).toEqual('_ s _ _');
       });
 
       it('should show letter at multiple match position', () => {
         const game = createGame('', 'asdf');
         game.matches = [false, true, false, true];
         const display = getGameDisplay(game);
-        expect(display).toEqual('_s_f');
+        expect(display).toEqual('_ s _ f');
       });
     });
   });
