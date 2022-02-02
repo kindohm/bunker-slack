@@ -45,7 +45,7 @@ const getGuessesBlock = (game: IGame) => {
   return getBlock(
     `guesses: ${guesses
       .map((g) => g.guess)
-      .join(', ')}, remaining: ${remaining}`
+      .join(', ')} (${remaining} remaining)`
   );
 };
 
