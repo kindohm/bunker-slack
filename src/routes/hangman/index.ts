@@ -1,6 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
+import { randomWord } from './words';
 import {
   IGame,
   createGame,
@@ -69,9 +70,14 @@ const handleNewGameRequest = (
   response_url: string,
   username: string
 ) => {
-  const game: IGame = createGame(username);
+  const game: IGame = createGame(username, randomWord());
+
+  console.log('started new game:', username);
 
   games[username] = game;
+
+  console.log('current game count:', Object.keys(games).length);
+
   const display = getGameDisplay(game);
 
   const responseBody = {
@@ -112,12 +118,18 @@ const handleGuess = (
     ],
   };
 
-  if (updatedGame.state === GameState.Win) {
-    responseBody.blocks.push(getWinBlock(updatedGame));
-    games[game.username] = undefined;
-  } else if (updatedGame.state === GameState.Lose) {
-    responseBody.blocks.push(getLoseBlock(updatedGame));
-    games[game.username] = undefined;
+  // if game is over, add final message to response, and
+  // delete game from the hash.
+  if (
+    updatedGame.state === GameState.Win ||
+    updatedGame.state === GameState.Lose
+  ) {
+    responseBody.blocks.push(
+      updatedGame.state === GameState.Win
+        ? getWinBlock(updatedGame)
+        : getLoseBlock(updatedGame)
+    );
+    games = { ...games, [game.username]: undefined };
   }
 
   sendDelayedResponse({

@@ -25,14 +25,17 @@ interface IMatchResult {
   isMatch: boolean;
 }
 
-export const createGame = (username: string, word?: string): IGame => {
-  const w = word || 'bunker';
+export const createGame = (
+  username: string,
+  word: string = 'bunker'
+): IGame => {
+  console.log('starting new game', username, word);
   const game: IGame = {
     username,
-    word: w,
+    word,
     guesses: [],
     state: GameState.InProgress,
-    matches: w.split('').map((w) => false),
+    matches: word.split('').map(() => false),
     badGuessCount: 0,
   };
   return game;
