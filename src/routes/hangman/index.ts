@@ -48,11 +48,6 @@ const getSingleLineDisplayBlock = (game: IGame) => {
   );
 };
 
-// const getStartBlock = (game: IGame) => {
-//   const { username } = game;
-//   return getBlock(`Hangman™ game started by ${username}.`);
-// };
-
 const handleNewGameRequest = (
   res: Response,
   response_url: string,
@@ -125,11 +120,6 @@ const handleGuess = (
     updatedGame.state === GameState.Lose
   ) {
     console.log('game over', updatedGame.username, updatedGame.state);
-    // responseBody.blocks.push(
-    //   updatedGame.state === GameState.Win
-    //     ? getWinBlock(updatedGame)
-    //     : getLoseBlock(updatedGame)
-    // );
     games = { ...games, [game.username]: undefined };
   }
 
