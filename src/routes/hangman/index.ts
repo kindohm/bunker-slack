@@ -1,7 +1,14 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
-import { IGame, createGame, guess, getGameDisplay, GameState } from './game';
+import {
+  IGame,
+  createGame,
+  guess,
+  getGameDisplay,
+  GameState,
+  MaxGuesses,
+} from './game';
 
 const responseDelay = 500;
 
@@ -23,8 +30,9 @@ const getBlock = (text: string, type: string = 'mrkdwn') => {
   };
 };
 
-const getHeaderBlock = () => {
-  return getBlock('*Hangman™*');
+const getHeaderBlock = (game: IGame) => {
+  const { username } = game;
+  return getBlock(`*Hangman™* (${username})`);
 };
 
 const getWordDisplayBlock = (wordDisplay: string) => {
@@ -32,8 +40,13 @@ const getWordDisplayBlock = (wordDisplay: string) => {
 };
 
 const getGuessesBlock = (game: IGame) => {
-  const { guesses } = game;
-  return getBlock(`guesses: ${guesses.map((g) => g.guess).join(', ')}`);
+  const { guesses, badGuessCount } = game;
+  const remaining = MaxGuesses - badGuessCount;
+  return getBlock(
+    `guesses: ${guesses
+      .map((g) => g.guess)
+      .join(', ')}, remaining: ${remaining}`
+  );
 };
 
 const getWinBlock = (game: IGame) => {
@@ -64,7 +77,7 @@ const handleNewGameRequest = (
   const responseBody = {
     response_type: 'in_channel',
     blocks: [
-      getHeaderBlock(),
+      getHeaderBlock(game),
       getStartBlock(game),
       getWordDisplayBlock(display),
     ],
@@ -84,26 +97,26 @@ const handleGuess = (
   game: IGame,
   text: string
 ) => {
-  const newGame = guess(game, text);
+  const updatedGame = guess(game, text);
 
-  games[newGame.username] = newGame;
+  games[updatedGame.username] = updatedGame;
 
-  const display = getGameDisplay(newGame);
+  const display = getGameDisplay(updatedGame);
 
   const responseBody = {
     response_type: 'in_channel',
     blocks: [
-      getHeaderBlock(),
+      getHeaderBlock(updatedGame),
       getWordDisplayBlock(display),
-      getGuessesBlock(newGame),
+      getGuessesBlock(updatedGame),
     ],
   };
 
-  if (newGame.state === GameState.Win) {
-    responseBody.blocks.push(getWinBlock(newGame));
+  if (updatedGame.state === GameState.Win) {
+    responseBody.blocks.push(getWinBlock(updatedGame));
     games[game.username] = undefined;
-  } else if (newGame.state === GameState.Lose) {
-    responseBody.blocks.push(getLoseBlock(newGame));
+  } else if (updatedGame.state === GameState.Lose) {
+    responseBody.blocks.push(getLoseBlock(updatedGame));
     games[game.username] = undefined;
   }
 
