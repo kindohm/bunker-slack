@@ -36,15 +36,15 @@ const getSingleLineDisplayBlock = (game: IGame) => {
       ? `[${badGuesses.map((g) => g.guess.toUpperCase()).join(', ')}] `
       : '';
 
-  const userText =
+  const winLoseText =
     game.state === GameState.InProgress
-      ? `(${game.username})`
+      ? ``
       : game.state === GameState.Win
-      ? `${game.username} wins! 🎉`
-      : `${game.username} loses. 👎`;
+      ? `You win! 🎉`
+      : `You lose. 👎`;
 
   return getBlock(
-    `Hangman™ ${emoticon} ${display} ${guesses}${userText}`,
+    `Hangman™ ${emoticon} ${display} ${guesses}${winLoseText}`,
     'plain_text'
   );
 };
@@ -52,13 +52,16 @@ const getSingleLineDisplayBlock = (game: IGame) => {
 const handleNewGameRequest = (
   res: Response,
   response_url: string,
-  username: string
+  username: string,
+  channel_name: string
 ) => {
-  const game: IGame = createGame(username, randomWord());
+  const game: IGame = createGame(channel_name, randomWord());
 
-  console.log('started new game:', username, game.word);
+  console.log(
+    `${username} started new game in #${channel_name} with the word "${game.word}"`
+  );
 
-  games[username] = game;
+  games[channel_name] = game;
 
   console.log(
     'current games:',
@@ -84,9 +87,10 @@ const handleGuess = (
   res: Response,
   response_url: string,
   game: IGame,
+  username: string,
   text: string
 ) => {
-  console.log(`${game.username} guessed ${text}`);
+  console.log(`${username} guessed ${text} in ${game.channel}`);
 
   const sanitized = text.toLowerCase();
   const isValidGuess = /^[a-z]+$/.test(sanitized);
@@ -107,7 +111,7 @@ const handleGuess = (
 
   const updatedGame = guess(game, sanitized);
 
-  games[updatedGame.username] = updatedGame;
+  games[updatedGame.channel] = updatedGame;
 
   const responseBody = {
     response_type: 'in_channel',
@@ -120,8 +124,8 @@ const handleGuess = (
     updatedGame.state === GameState.Win ||
     updatedGame.state === GameState.Lose
   ) {
-    console.log('game over', updatedGame.username, updatedGame.state);
-    games = { ...games, [game.username]: undefined };
+    console.log('game over', updatedGame.channel, updatedGame.state);
+    games = { ...games, [game.channel]: undefined };
   }
 
   sendDelayedResponse({
@@ -136,14 +140,14 @@ router.post('/', (req: Request, res: Response) => {
   try {
     console.log('/hangman');
     const { body } = req;
-    const { response_url, user_name, text } = body;
+    const { response_url, user_name, channel_name, text } = body;
 
-    const game = games[user_name];
+    const game = games[channel_name];
     if (!game) {
-      return handleNewGameRequest(res, response_url, user_name);
+      return handleNewGameRequest(res, response_url, user_name, channel_name);
     }
 
-    return handleGuess(res, response_url, game, text);
+    return handleGuess(res, response_url, game, user_name, text);
   } catch (e) {
     console.error('an error occurred');
     console.error(e);

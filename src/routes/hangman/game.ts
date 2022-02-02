@@ -12,7 +12,7 @@ export interface IGuess {
 }
 
 export interface IGame {
-  username: string;
+  channel: string;
   word: string;
   guesses: IGuess[];
   state: GameState;
@@ -25,12 +25,9 @@ interface IMatchResult {
   isMatch: boolean;
 }
 
-export const createGame = (
-  username: string,
-  word: string = 'bunker'
-): IGame => {
+export const createGame = (channel: string, word: string = 'bunker'): IGame => {
   const game: IGame = {
-    username,
+    channel,
     word,
     guesses: [],
     state: GameState.InProgress,

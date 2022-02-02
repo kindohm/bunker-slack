@@ -4,10 +4,10 @@ describe('game', () => {
   describe('createGame', () => {
     it('should return new game with initial values', () => {
       const game = createGame('hank', 'hoop');
-      const { guesses, state, word, username, matches } = game;
+      const { guesses, state, word, channel, matches } = game;
       expect(guesses).toEqual([]);
       expect(state).toEqual(GameState.InProgress);
-      expect(username).toEqual('hank');
+      expect(channel).toEqual('hank');
       expect(word).toEqual('hoop');
       expect(matches.length).toEqual(4);
       expect(matches).toEqual([false, false, false, false]);
