@@ -70,7 +70,7 @@ const handleNewGameRequest = (
   response_url: string,
   username: string
 ) => {
-  const game: IGame = createGame(username, randomWord());
+  const game: IGame = createGame(username, 'receive' /*randomWord()*/);
 
   console.log('started new game:', username);
 

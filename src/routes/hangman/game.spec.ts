@@ -163,6 +163,18 @@ describe('game', () => {
         expect(display).toEqual('P _ _ P _ _');
       });
 
+      it('should show correct display for word with many of the same letter', () => {
+        let game = createGame('hank', 'receive');
+
+        const game2 = guess(game, 'r');
+        const display2 = getGameDisplay(game2);
+        expect(display2).toEqual('R _ _ _ _ _ _');
+
+        const game3 = guess(game2, 'e');
+        const display3 = getGameDisplay(game3);
+        expect(display3).toEqual('R E _ E _ _ E');
+      });
+
       it('should show result word if game is over', () => {
         let game = createGame('hank', 'bunker');
         game = guess(game, 'x');
