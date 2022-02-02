@@ -2,14 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { randomWord } from './words';
-import {
-  IGame,
-  createGame,
-  guess,
-  getGameDisplay,
-  GameState,
-  MaxGuesses,
-} from './game';
+import { IGame, createGame, guess, getGameDisplay, GameState } from './game';
 
 const responseDelay = 500;
 
@@ -36,29 +29,17 @@ const getHeaderBlock = (game: IGame) => {
   return getBlock(`*Hangman™* (${username})`);
 };
 
-const getWordDisplayBlock = (wordDisplay: string) => {
-  return getBlock(`word: ${wordDisplay}`, 'plain_text');
-};
-
 const getSingleLineDisplayBlock = (game: IGame) => {
   const emoticon = `:hangman${game.badGuessCount}:`;
   const display = getGameDisplay(game);
-  const guesses = `[${game.guesses
+  const badGuesses = game.guesses.filter((g) => {
+    return !g.isMatch;
+  });
+
+  const guesses = `[${badGuesses
     .map((g) => g.guess.toUpperCase())
     .join(', ')}]`;
   return getBlock(`${emoticon} ${display} ${guesses}`, 'plain_text');
-};
-
-const getGuessesBlock = (game: IGame) => {
-  const { guesses, badGuessCount } = game;
-  const remaining = MaxGuesses - badGuessCount;
-  return getBlock(
-    `guesses: ${
-      guesses.length > 0
-        ? guesses.map((g) => g.guess.toUpperCase()).join(', ')
-        : 'None'
-    } (${remaining} remaining)`
-  );
 };
 
 const getWinBlock = (game: IGame) => {
@@ -88,8 +69,6 @@ const handleNewGameRequest = (
   games[username] = game;
 
   console.log('current game count:', Object.keys(games).length);
-
-  const display = getGameDisplay(game);
 
   const responseBody = {
     response_type: 'in_channel',
