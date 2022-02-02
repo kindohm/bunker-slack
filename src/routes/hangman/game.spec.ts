@@ -149,6 +149,12 @@ describe('game', () => {
         const display = getGameDisplay(game);
         expect(display).toEqual('_ s _ f');
       });
+
+      it('should show correct display for a longer word', () => {
+        const game = createGame('hank', 'bunker');
+        const display = getGameDisplay(game);
+        expect(display).toEqual('_ _ _ _ _ _');
+      });
     });
   });
 });

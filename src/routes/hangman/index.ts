@@ -36,7 +36,7 @@ const handleNewGameRequest = (
       {
         type: 'section',
         text: {
-          type: 'mrkdwn',
+          type: 'plain_text',
           text: `word: ${display}`,
         },
       },
@@ -70,7 +70,7 @@ const handleGuess = (
       {
         type: 'section',
         text: {
-          type: 'mrkdwn',
+          type: 'plain_text',
           text: `word: ${display}`,
         },
       },
