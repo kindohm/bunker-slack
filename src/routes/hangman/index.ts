@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { response } from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
-import { IGame, createGame, guess } from './game';
+import { IGame, createGame, guess, getGameDisplay, GameState } from './game';
 
 const MAX_GUESSES = 5;
 const router = express.Router();
@@ -20,6 +20,7 @@ const handleNewGameRequest = (
   const game: IGame = createGame(username);
 
   games[username] = game;
+  const display = getGameDisplay(game);
 
   const responseBody = {
     response_type: 'in_channel',
@@ -29,6 +30,13 @@ const handleNewGameRequest = (
         text: {
           type: 'mrkdwn',
           text: `${username} started a new game of hangman.`,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `\`${display}\``,
         },
       },
     ],
@@ -43,7 +51,12 @@ const handleGuess = (
   game: IGame,
   text: string
 ) => {
-  guess(game, text);
+  const newGame = guess(game, text);
+
+  console.log('newGame', newGame);
+  games[newGame.username] = newGame;
+
+  const display = getGameDisplay(newGame);
 
   const responseBody = {
     response_type: 'in_channel',
@@ -52,18 +65,40 @@ const handleGuess = (
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `${game.username} guessed ${text}.`,
+          text: `${newGame.username} guessed ${text}.`,
         },
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: game.guesses.join(', '),
+          text: `\`${display}\``,
+        },
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: newGame.guesses.map((g) => g.guess).join(', '),
         },
       },
     ],
   };
+
+  if (newGame.state === GameState.Win) {
+    responseBody.blocks.push({
+      type: 'section',
+      text: { type: 'mrkdwn', text: 'Win!!!' },
+    });
+    games[game.username] = undefined;
+  } else if (newGame.state === GameState.Lose) {
+    responseBody.blocks.push({
+      type: 'section',
+      text: { type: 'mrkdwn', text: 'Lose!!!' },
+    });
+
+    games[game.username] = undefined;
+  }
 
   sendDelayedResponse({ res, response_url, responseBody });
 };
