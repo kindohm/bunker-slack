@@ -80,6 +80,7 @@ const handleNewGameRequest = (
     response_url,
     responseBody,
     delay: responseDelay,
+    showOriginalMessage: false,
   });
 };
 
@@ -106,6 +107,7 @@ const handleGuess = (
       response_url,
       responseBody: invalidBody,
       delay: responseDelay,
+      showOriginalMessage: false,
     });
   }
 
@@ -133,6 +135,7 @@ const handleGuess = (
     response_url,
     responseBody,
     delay: responseDelay,
+    showOriginalMessage: false,
   });
 };
 

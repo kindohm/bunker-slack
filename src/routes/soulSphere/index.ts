@@ -33,7 +33,12 @@ router.post('/', async (req: Request, res: Response) => {
       ],
     };
 
-    sendDelayedResponse({ res, response_url, responseBody });
+    sendDelayedResponse({
+      res,
+      response_url,
+      responseBody,
+      showOriginalMessage: true,
+    });
   } catch (e) {
     console.error('an error occurred');
     console.error(e);

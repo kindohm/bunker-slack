@@ -7,19 +7,24 @@ interface IDelayedResponseArgs {
   response_url: string;
   responseBody: any;
   delay?: number;
+  showOriginalMessage: boolean;
 }
 
 export const sendDelayedResponse = (
   delayedResponseArgs: IDelayedResponseArgs
 ) => {
-  const { res, response_url, responseBody, delay } = delayedResponseArgs;
+  const { res, response_url, responseBody, delay, showOriginalMessage } =
+    delayedResponseArgs;
 
   const time = delay || delayTime;
 
   if (response_url) {
     // must send empty response immediately
-    res.status(200).send();
-
+    if (showOriginalMessage) {
+      res.status(200).send({ response_type: 'in_channel' });
+    } else {
+      res.status(200).send();
+    }
     // send actual Magic 8 Ball answer in the future
     setTimeout(async () => {
       try {
