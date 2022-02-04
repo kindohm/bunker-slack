@@ -36,11 +36,10 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
 
-          script: >
-            cd ~/code/m8b &&
-            git pull &&
-            yarn &&
-            yarn run test &&
-            yarn run build &&
-            pm2 restart index &&
+          script: |
+            cd ~/code/m8b
+            git pull 
+            yarn
+            yarn run test
+            yarn run build
             echo 'done'
