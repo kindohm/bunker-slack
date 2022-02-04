@@ -6,7 +6,14 @@ interface IDelayedResponseArgs {
   res: Response;
   response_url: string;
   responseBody: any;
+
+  // how long to wait to post back to the Slack channel
   delay?: number;
+
+  // if true, this will allow the user's slash command message
+  // to be displayed in the Slack conversation.
+  // if false, the user's slash command will only
+  // be visible to themselves.
   showOriginalMessage: boolean;
 }
 
