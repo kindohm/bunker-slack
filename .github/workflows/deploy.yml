@@ -5,23 +5,31 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - name: Run a multi-line script
+  #       run: |
+  #         echo Add other actions to build,
+  #         echo test, and deploy your project.
+  #         yarn
+  #         yarn run build
+  #         yarn run test
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          name: Run a multi-line script
+          run: >
+            yarn &&
+            yarn run build &&
+            yarn run test
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          yarn
-          yarn run build
-          yarn run test
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{secrets.SSH_HOST}}
@@ -29,7 +37,11 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
 
           script: >
-            mkdir test &&
-            cd test &&
-            git clone git@github.com:kindohm/m8ball.git &&
+            cd ~/code/m8b &&
+            git pull &&
+            nvm use --lts &&
+            yarn &&
+            yarn run test &&
+            yarn run build &&
+            pm2 restart index &&
             echo 'done'
