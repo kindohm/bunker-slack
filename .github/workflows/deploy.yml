@@ -39,7 +39,8 @@ jobs:
           script: |
             cd ~/code/m8b
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh            
+            source ~/.nvm/nvm.sh 
+            nvm use 16.13.2        
             git pull 
             yarn
             yarn run test
