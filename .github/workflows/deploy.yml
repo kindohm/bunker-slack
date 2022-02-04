@@ -39,7 +39,6 @@ jobs:
           script: >
             cd ~/code/m8b &&
             git pull &&
-            nvm use --lts &&
             yarn &&
             yarn run test &&
             yarn run build &&
