@@ -35,11 +35,11 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
-
+          script_stop: true
           script: |
             cd ~/code/m8b
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh            
             git pull 
             yarn
             yarn run test
