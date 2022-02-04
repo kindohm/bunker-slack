@@ -45,4 +45,5 @@ jobs:
             yarn
             yarn run test
             yarn run build
+            pm2 restart index
             echo 'done'
