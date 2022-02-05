@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        uses: actions/checkout@v2
-        run: yarn && yarn run test
+      - uses: actions/checkout@v2
+      - run: yarn && yarn run test
 
       - name: deploy
         uses: appleboy/ssh-action@v0.1.2
