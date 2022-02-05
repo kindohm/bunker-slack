@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - run: yarn && yarn run test
 
       - name: deploy
