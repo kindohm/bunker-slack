@@ -22,7 +22,7 @@ router.post('/', (req: Request, res: Response) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `:magic8ball: ${answer}`,
+            text: `:magic8balls: ${answer}`,
           },
         },
       ],
