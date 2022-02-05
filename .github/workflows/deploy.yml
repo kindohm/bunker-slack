@@ -37,7 +37,7 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           script_stop: true
           script: |
-            exec bash \-l
+            exec bash -l
             cd ~/code/m8b
             git pull 
             yarn
