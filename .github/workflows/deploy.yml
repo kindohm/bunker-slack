@@ -38,13 +38,14 @@ jobs:
           script_stop: true
           script: |
             cd ~/code/m8b
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh 
-            nvm ls
-            nvm use 16.13.2        
             git pull 
             yarn
             yarn run test
             yarn run build
             pm2 restart index
             echo 'done'
+
+# export NVM_DIR=~/.nvm
+# source ~/.nvm/nvm.sh
+# nvm ls
+# nvm use 16.13.2
