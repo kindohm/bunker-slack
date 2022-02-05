@@ -5,31 +5,9 @@ on:
     branches: [main]
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Run a multi-line script
-  #       run: |
-  #         echo Add other actions to build,
-  #         echo test, and deploy your project.
-  #         yarn
-  #         yarn run build
-  #         yarn run test
-
-  build-and-deploy:
+  build-test-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v2
-      #   with:
-      #     name: Run a multi-line script
-      #     run: >
-      #       yarn &&
-      #       yarn run build &&
-      #       yarn run test
-
       - uses: appleboy/ssh-action@v0.1.2
         with:
           host: ${{secrets.SSH_HOST}}
@@ -39,7 +17,6 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            nvm ls
             cd ~/code/m8b
             git pull 
             yarn
@@ -47,5 +24,3 @@ jobs:
             yarn run build
             pm2 restart index
             echo 'done'
-
-# nvm use 16.13.2
