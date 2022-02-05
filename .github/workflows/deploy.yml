@@ -37,6 +37,9 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           script_stop: true
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            nvm ls
             cd ~/code/m8b
             git pull 
             yarn
@@ -45,7 +48,4 @@ jobs:
             pm2 restart index
             echo 'done'
 
-# export NVM_DIR=~/.nvm
-# source ~/.nvm/nvm.sh
-# nvm ls
 # nvm use 16.13.2
