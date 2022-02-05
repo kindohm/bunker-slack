@@ -1,9 +1,6 @@
 import { createGame, GameState, guess, getGameDisplay } from './game';
 
 describe('game', () => {
-  it('should fail', () => {
-    expect(1).toEqual(2);
-  });
   describe('createGame', () => {
     it('should return new game with initial values', () => {
       const game = createGame('hank', 'hoop');
