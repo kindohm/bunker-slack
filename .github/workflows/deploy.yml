@@ -8,9 +8,11 @@ jobs:
   build-test-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: test
+      - name: checkout
         uses: actions/checkout@v2
-      - run: yarn && yarn run test
+
+      - name: run tests
+        run: yarn && yarn run test
 
       - name: deploy
         uses: appleboy/ssh-action@v0.1.2
@@ -25,7 +27,6 @@ jobs:
             cd ~/code/m8b
             git pull 
             yarn
-            yarn run test
             yarn run build
             pm2 restart index
             echo 'done'
