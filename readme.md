@@ -14,6 +14,8 @@ Each slash-command corresponds to a route in this repo under `src/routes/`.
 
 ## Local development
 
+Requires nodejs 16.
+
 ```
 yarn
 yarn run dev
