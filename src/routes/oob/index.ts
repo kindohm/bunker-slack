@@ -50,6 +50,7 @@ router.post('/', (req: Request, res: Response) => {
       response_url,
       responseBody,
       showOriginalMessage: true,
+      delay: 1000,
     });
   } catch (e) {
     console.error('an error occurred');
