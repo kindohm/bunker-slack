@@ -2,6 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { getRandItem } from './../../util';
+import emojiList from './emojiList';
 
 const router = express.Router();
 
@@ -15,27 +16,8 @@ const oobIt = (phrase: string): string => {
   return phrase.replace(/[aeiouAEIOU]/g, 'oob');
 };
 
-const randomEmojis = [
-  'awwyiss',
-  'notsureif',
-  'awyeah',
-  'blah',
-  'chefkiss',
-  'confuse',
-  'duckhunt',
-  'elmofire',
-  'excellent2',
-  'hansolo',
-  'itsatrap',
-  'notbad',
-  'orly',
-  'rip',
-  'tapping-head',
-  'youdontsay',
-];
-
 const getRandomEmoji = (): string => {
-  return getRandItem(randomEmojis);
+  return getRandItem(emojiList);
 };
 
 router.post('/', (req: Request, res: Response) => {
