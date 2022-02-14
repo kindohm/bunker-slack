@@ -2,13 +2,15 @@ Bunkerchat Slack slash commands.
 
 ## Usage in Slack
 
-There are three slash-commands:
+There are various slash-commands:
 
 `/magic8ball [question]`
 
 `/soulsphere [question]`
 
 `/hangman` or `/h` (followed by `/hangman [guess]` or `/h [guess]`)
+
+`/oob [phrase]`
 
 Each slash-command corresponds to a route in this repo under `src/routes/`.
 
