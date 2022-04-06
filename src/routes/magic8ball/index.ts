@@ -1,17 +1,17 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import answers from './answers';
+import { answers, thvAnswers } from './answers';
 import { getRandItem } from './../../util';
 import { sendDelayedResponse } from '../../delayedResponse';
 
 const router = express.Router();
 
-router.post('/', (req: Request, res: Response) => {
+const respond = (req: Request, res: Response, availableAnswers: string[]) => {
   try {
     console.log('/magic8ball');
     const { body } = req;
     const { response_url, user_name, text } = body;
-    const answer = getRandItem(answers);
+    const answer = getRandItem(availableAnswers);
 
     console.log({ user_name, text, answer });
 
@@ -39,6 +39,16 @@ router.post('/', (req: Request, res: Response) => {
     console.error(e);
     res.status(500).send('error');
   }
+};
+
+router.post('/', (req: Request, res: Response) => {
+  console.log('/magic8ball');
+  return respond(req, res, answers);
+});
+
+router.post('/thv', (req: Request, res: Response) => {
+  console.log('/magic8ball/thv');
+  return respond(req, res, thvAnswers);
 });
 
 export default router;
