@@ -28,5 +28,7 @@ export const answers: Array<string> = [
 export const thvAnswers: Array<string> = [
   `We haven't done a competitive analysis on that yet.`,
   'Access denied.',
-  'You are not allowed to access that right now.',
+  'We ran into a problem. Reconnecting...',
+  'You cannot access this right now.',
+  'Does not meet the criteria to access this resource.',
 ];
