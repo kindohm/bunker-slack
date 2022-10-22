@@ -12,7 +12,7 @@ router.post('/', (req: Request, res: Response) => {
   console.log('talker body', body);
 
   res.statusCode = 200;
-  res.send(challenge);
+  res.json({ challenge });
   res.end();
 });
 
