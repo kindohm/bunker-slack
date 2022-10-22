@@ -7,10 +7,12 @@ const router = express.Router();
 router.post('/', (req: Request, res: Response) => {
   console.log('/talker');
   const { body } = req;
+  const { challenge } = body;
 
   console.log('talker body', body);
 
   res.statusCode = 200;
+  res.send(challenge);
   res.end();
 });
 
