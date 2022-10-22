@@ -1,15 +1,30 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { sendDelayedResponse } from '../../delayedResponse';
+
+const allowedChannels = [
+  'G06GSTTGB', // classic
+];
+
+const maxEvents = 25;
+let events: any[] = [];
 
 const router = express.Router();
 
 router.post('/', (req: Request, res: Response) => {
   console.log('/talker');
   const { body } = req;
-  const { challenge } = body;
+  const { challenge, event } = body;
+  const { channel } = event;
 
-  console.log('talker body', body);
+  if (allowedChannels.includes(channel)) {
+    events = events.concat(body).sort((a, b) => {
+      return a.event_time > b.event_time ? 1 : -1;
+    });
+
+    if (events.length > maxEvents) {
+      events = [...events.slice(0, 0), ...events.slice(1)];
+    }
+  }
 
   res.statusCode = 200;
   res.json({ challenge });
@@ -17,7 +32,7 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 router.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'hi' });
+  res.json(events);
   res.statusCode = 200;
   res.end();
 });
