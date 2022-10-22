@@ -16,6 +16,10 @@ router.post('/', (req: Request, res: Response) => {
   res.end();
 });
 
-router.get('/', (req: Request, res: Response) => {});
+router.get('/', (req: Request, res: Response) => {
+  res.json({ message: 'hi' });
+  res.statusCode = 200;
+  res.end();
+});
 
 export default router;

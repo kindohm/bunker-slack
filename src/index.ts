@@ -9,6 +9,7 @@ import talker from './routes/talker';
 const app = express();
 const port = 5150;
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
