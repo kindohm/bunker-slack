@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 
 const allowedChannels = [
   'G06GSTTGB', // classic
+  'C047LP5D961', // testing123
+  'C0FUJBZ1Q', // specific
 ];
 
 const maxEvents = 25;
