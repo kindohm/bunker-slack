@@ -5,6 +5,7 @@ const allowedChannels = [
   'G06GSTTGB', // classic
   'C047LP5D961', // testing123
   'C0FUJBZ1Q', // specific
+  'C03PVG966QM', // ai-art
 ];
 
 const maxEvents = 25;
