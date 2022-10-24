@@ -16,7 +16,6 @@ const router = express.Router();
 router.post('/', (req: Request, res: Response) => {
   console.log('/talker');
   const { body } = req;
-  console.log('talker body', body);
   const { challenge, event } = body;
   const { channel } = event;
 
