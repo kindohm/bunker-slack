@@ -12,7 +12,7 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
     console.log('/magic8ball');
     const { body } = req;
     const { response_url, user_name, text } = body;
-    const isNeil = text === '/neildegrassetysonfact';
+    const isNeil = ['--neildegrassetysonfact', '-ndgf'].includes(text);
     const answer = isNeil ? getTyson() : getRandItem(availableAnswers);
 
     console.log({ user_name, text, answer });
