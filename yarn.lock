@@ -4082,6 +4082,11 @@ tr46@^2.1.0:
   dependencies:
     punycode "^2.1.1"
 
+tracery-es8@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tracery-es8/-/tracery-es8-1.1.0.tgz#4ed958a920d43d2cbca58900b0f4ef1720c99614"
+  integrity sha512-MR6C8yAzoQ//V7HPOEEBwm3b+DSvSNzUXx0SzxkMY6QSruhA/92pInt5gK8qgvmGPpwL5hUulaIu4ixXqyeP8g==
+
 tracery-grammar@2.7.4:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/tracery-grammar/-/tracery-grammar-2.7.4.tgz#241780cd205d846a88729f7fbffa6777ac13e8cd"

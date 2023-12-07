@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { answers, thvAnswers } from './answers';
 import { getRandItem } from './../../util';
 import { sendDelayedResponse } from '../../delayedResponse';
+import { getTyson } from './tyson';
 
 const router = express.Router();
 
@@ -11,7 +12,8 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
     console.log('/magic8ball');
     const { body } = req;
     const { response_url, user_name, text } = body;
-    const answer = getRandItem(availableAnswers);
+    const isNeil = text === '/neildegrassetysonfact';
+    const answer = isNeil ? getTyson() : getRandItem(availableAnswers);
 
     console.log({ user_name, text, answer });
 
@@ -22,7 +24,7 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `:magic8ball: ${answer}`,
+            text: isNeil ? `> ${answer}` : `:magic8ball: ${answer}`,
           },
         },
       ],
