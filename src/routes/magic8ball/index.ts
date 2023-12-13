@@ -4,7 +4,7 @@ import { answers, thvAnswers } from './answers';
 import { getRandItem } from './../../util';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { getTyson } from './tyson';
-import { get1d20 } from './1d20';
+import { get1d20 } from '../../lib/d20';
 
 const router = express.Router();
 

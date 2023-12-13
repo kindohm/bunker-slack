@@ -1,4 +1,4 @@
-import { randInt } from '../../util';
+import { randInt } from '../util';
 
 export const get1d20 = (user: string) => {
   const roll = randInt(1, 20);

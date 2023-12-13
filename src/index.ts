@@ -5,6 +5,7 @@ import soulSphere from './routes/soulSphere';
 import hangman from './routes/hangman';
 import oob from './routes/oob';
 import talker from './routes/talker';
+import d20 from './routes/d20';
 
 const app = express();
 const port = 5150;
@@ -18,6 +19,7 @@ app.use('/soulsphere', soulSphere);
 app.use('/hangman', hangman);
 app.use('/oob', oob);
 app.use('/talker', talker);
+app.use('/d20', d20);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
