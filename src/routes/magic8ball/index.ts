@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 import { answers, thvAnswers } from './answers';
 import { getRandItem } from './../../util';
 import { sendDelayedResponse } from '../../delayedResponse';
-import { getTyson } from './tyson';
 import { get1d20 } from '../../lib/d20';
+import { getTyson } from '../../lib/tyson';
 
 const router = express.Router();
 

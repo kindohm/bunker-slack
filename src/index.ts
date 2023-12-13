@@ -6,6 +6,7 @@ import hangman from './routes/hangman';
 import oob from './routes/oob';
 import talker from './routes/talker';
 import d20 from './routes/d20';
+import neil from './routes/neil';
 
 const app = express();
 const port = 5150;
@@ -20,6 +21,8 @@ app.use('/hangman', hangman);
 app.use('/oob', oob);
 app.use('/talker', talker);
 app.use('/d20', d20);
+app.use('/neil', neil);
+app.use('/neildegrassetysonfact', neil);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
