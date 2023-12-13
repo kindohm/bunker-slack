@@ -4,6 +4,7 @@ import { answers, thvAnswers } from './answers';
 import { getRandItem } from './../../util';
 import { sendDelayedResponse } from '../../delayedResponse';
 import { getTyson } from './tyson';
+import { get1d20 } from './1d20';
 
 const router = express.Router();
 
@@ -12,8 +13,14 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
     console.log('/magic8ball');
     const { body } = req;
     const { response_url, user_name, text } = body;
-    const isNeil = ['--neildegrassetysonfact', '-ndgf'].includes(text);
-    const answer = isNeil ? getTyson() : getRandItem(availableAnswers);
+    const isNeil = ['--neildegrassetysonfact'].includes(text);
+    const is1d20 = ['--1d20', '--d20'].includes(text);
+
+    const answer = isNeil
+      ? getTyson()
+      : is1d20
+      ? get1d20(user_name)
+      : getRandItem(availableAnswers);
 
     console.log({ user_name, text, answer });
 
@@ -24,7 +31,11 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: isNeil ? `> ${answer}` : `:magic8ball: ${answer}`,
+            text: isNeil
+              ? `> ${answer}`
+              : is1d20
+              ? `:dice: ${answer}`
+              : `:magic8ball: ${answer}`,
           },
         },
       ],
