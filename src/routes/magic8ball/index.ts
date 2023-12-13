@@ -34,7 +34,7 @@ const respond = (req: Request, res: Response, availableAnswers: string[]) => {
             text: isNeil
               ? `> ${answer}`
               : is1d20
-              ? `:dice: ${answer}`
+              ? `:d20: ${answer}`
               : `:magic8ball: ${answer}`,
           },
         },
