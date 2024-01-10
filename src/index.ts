@@ -4,7 +4,6 @@ import magic8ball from './routes/magic8ball';
 import soulSphere from './routes/soulSphere';
 import hangman from './routes/hangman';
 import oob from './routes/oob';
-import talker from './routes/talker';
 import d20 from './routes/d20';
 import neil from './routes/neil';
 
