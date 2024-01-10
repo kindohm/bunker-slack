@@ -7,6 +7,7 @@ import oob from './routes/oob';
 import talker from './routes/talker';
 import d20 from './routes/d20';
 import neil from './routes/neil';
+import interact from './routes/interact';
 
 const app = express();
 const port = 5150;
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
+app.use('/interact', interact);
 app.use('/magic8ball', magic8ball);
 app.use('/soulsphere', soulSphere);
 app.use('/hangman', hangman);
