@@ -78,7 +78,7 @@ const getResponseText = (user_name: string, result: RollResult) => {
   }]`;
 
   const main = `:d20: [DC${dc}] ${user_name} rolled ${total} ${outcomeTextAll}`;
-  if (!advantage && (!buffs || buffs.length === 0)) {
+  if (rolls.length === 1 && (!buffs || buffs.length === 0)) {
     return main;
   }
 
