@@ -82,9 +82,11 @@ const getResponseText = (user_name: string, result: RollResult) => {
     return main;
   }
 
-  const rollText = rolls.map((roll) => {
-    return `- roll: ${roll}${EOL}`;
-  });
+  const rollText = rolls
+    .map((roll) => {
+      return `- roll: ${roll > -1 ? '+' : '-'}${roll}${EOL}`;
+    })
+    .join(EOL);
   const buffText = buffs
     .map((buff) => {
       return `- ${buff.buffName}${
