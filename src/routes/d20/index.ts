@@ -84,7 +84,7 @@ const getResponseText = (user_name: string, result: RollResult) => {
 
   const rollText = rolls
     .map((roll) => {
-      return `- roll: ${roll}${EOL}`;
+      return `- roll: ${roll}`;
     })
     .join(EOL);
   const buffText = buffs
@@ -95,7 +95,7 @@ const getResponseText = (user_name: string, result: RollResult) => {
     })
     .join(`${EOL}`);
 
-  return `${main}${EOL}${EOL}${rollText}${buffText}`;
+  return `${main}${EOL}${EOL}${rollText}${EOL}${buffText}`;
 };
 
 router.post('/', (req: Request, res: Response) => {
