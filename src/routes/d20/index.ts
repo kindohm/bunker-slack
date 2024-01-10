@@ -84,14 +84,14 @@ const getResponseText = (user_name: string, result: RollResult) => {
 
   const rollText = rolls
     .map((roll) => {
-      return `- roll: ${roll > -1 ? '+' : '-'}${roll}${EOL}`;
+      return `- roll: ${roll}${EOL}`;
     })
     .join(EOL);
   const buffText = buffs
     .map((buff) => {
       return `- ${buff.buffName}${
         buff.buffType === BuffType.ROLL ? ` [1d${buff.max}]` : ''
-      }: ${buff.result}`;
+      }: +${buff.result}`;
     })
     .join(`${EOL}`);
 
