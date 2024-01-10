@@ -5,12 +5,28 @@ import { get1d20 } from '../../lib/d20';
 
 const router = express.Router();
 
+const getDc = (text: string) => {
+  try {
+    if (!text) return 10;
+    const idx = text.indexOf('--dc=');
+    if (idx < 0) return 10;
+    const num = parseInt(text.substring(5));
+    if (isNaN(num)) return 10;
+    return Math.max(0, Math.min(20, num));
+  } catch {
+    return 10;
+  }
+};
+
 router.post('/', (req: Request, res: Response) => {
   try {
     console.log('/d20');
     const { body } = req;
     const { response_url, user_name, text } = body;
-    const answer = get1d20(user_name);
+
+    const dc = getDc(text);
+
+    const answer = get1d20(user_name, dc);
 
     const responseBody = {
       response_type: 'in_channel',
@@ -19,7 +35,7 @@ router.post('/', (req: Request, res: Response) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `:d20: ${answer}`,
+            text: `:d20: [DC${dc}] ${answer}`,
           },
         },
       ],
