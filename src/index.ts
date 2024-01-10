@@ -21,7 +21,6 @@ app.use('/magic8ball', magic8ball);
 app.use('/soulsphere', soulSphere);
 app.use('/hangman', hangman);
 app.use('/oob', oob);
-app.use('/talker', talker);
 app.use('/d20', d20);
 app.use('/neil', neil);
 app.use('/neildegrassetysonfact', neil);
