@@ -1,10 +1,33 @@
 import { randInt } from '../util';
 
-export const get1d20 = (user: string, dc: number) => {
-  const roll = randInt(1, 20);
-  const critical = roll === 1 || roll === 20;
-  const success = roll >= dc ? 'SUCCESS' : 'FAILURE';
-  const msg = critical ? `CRITICAL ${success}` : success;
+export type Buff = {
+  buffName: string;
+  max: number;
+};
 
-  return `${user} rolled ${roll} [${msg}]`;
+export type BuffResult = Buff & { result: number };
+
+export type RollResult = {
+  dc: number;
+  buffs: BuffResult[];
+  roll: number;
+  total: number;
+  success: boolean;
+  critical: boolean;
+};
+
+export const get1d20 = (dc: number, buffs: Buff[]): RollResult => {
+  const buffResults = buffs.map((buff) => {
+    return { ...buff, result: randInt(1, buff.max) };
+  });
+  const buffSum = buffResults.reduce((sum, buff) => {
+    return sum + buff.result;
+  }, 0);
+
+  const roll = randInt(1, 20);
+  const total = roll + buffSum;
+  const critical = total === 1 || total === 20;
+  const success = total >= dc;
+
+  return { dc, buffs: buffResults, roll, total, success, critical };
 };
