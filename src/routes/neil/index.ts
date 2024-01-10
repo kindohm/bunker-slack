@@ -9,6 +9,7 @@ router.post('/', (req: Request, res: Response) => {
   try {
     console.log('/neildegrassetysonfact');
     const { body } = req;
+    console.log('full body', body);
     const { response_url } = body;
     const answer = getTyson();
 
@@ -20,6 +21,16 @@ router.post('/', (req: Request, res: Response) => {
           text: {
             type: 'mrkdwn',
             text: `> ${answer}\n>\n> - Neil deGrasse Tyson`,
+          },
+          accessory: {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: 'Click Me',
+              emoji: true,
+            },
+            value: 'click_me_123',
+            action_id: 'button-action',
           },
         },
       ],
