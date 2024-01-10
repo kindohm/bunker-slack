@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { sendDelayedResponse } from '../../delayedResponse';
-import { Buff, RollResult, get1d20 } from '../../lib/d20';
+import { Buff, BuffType, Options, RollResult, get1d20 } from '../../lib/d20';
 import { EOL } from 'os';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ const getDc = (text: string) => {
   }
 };
 
-const getBuff = (text: string) => {
+const getBuff = (text: string): Buff => {
   try {
     if (!text) return null;
     const idx = text.indexOf('--buff:');
@@ -30,22 +30,22 @@ const getBuff = (text: string) => {
     }
     const rest = remainder.split('=');
     const [buffName, buffRawVal] = rest;
+    const type = buffRawVal ? BuffType.CONSTANT : BuffType.ROLL;
     const buffVal = buffRawVal ? parseInt(buffRawVal) : 4;
     const max = isNaN(buffVal) ? 4 : buffVal;
-    return { buffName, max };
+    return { buffName, max, buffType: type };
   } catch {
     return null;
   }
 };
 
-type Options = {
-  dc: number;
-  buffs: Buff[];
-};
-
 const getOptionsFromFlags = (flags: string[]): Options => {
   const opts = flags.reduce(
     (options, flag) => {
+      if (flag.startsWith('--advantage')) {
+        return { ...options, advantage: true };
+      }
+
       if (flag.startsWith('--dc=')) {
         return { ...options, dc: getDc(flag) };
       }
@@ -61,14 +61,17 @@ const getOptionsFromFlags = (flags: string[]): Options => {
 
       return options;
     },
-    { dc: 10, buffs: [] }
+    { dc: 10, advantage: false, buffs: [] }
   );
 
   return opts;
 };
 
 const getResponseText = (user_name: string, result: RollResult) => {
-  const { dc, roll, total, critical, success, buffs } = result;
+  const { dc, rolls, total, critical, success, buffs, advantage } = result;
+
+  console.log('everything', result);
+
   const outcomeText = success ? 'SUCCESS' : 'FAILURE';
   const outcomeTextAll = `[${
     critical ? `CRITICAL ${outcomeText}` : outcomeText
@@ -79,10 +82,14 @@ const getResponseText = (user_name: string, result: RollResult) => {
     return main;
   }
 
-  const rollText = `- roll: ${roll}${EOL}`;
+  const rollText = rolls.map((roll) => {
+    return `- roll: ${roll}${EOL}`;
+  });
   const buffText = buffs
     .map((buff) => {
-      return `- ${buff.buffName} [1d${buff.max}]: ${buff.result}`;
+      return `- ${buff.buffName}${
+        buff.buffType === BuffType.ROLL ? ` [1d${buff.max}]` : ''
+      }: ${buff.result}`;
     })
     .join(`${EOL}`);
 
@@ -97,9 +104,8 @@ router.post('/', (req: Request, res: Response) => {
 
     const flags = text.split(' ');
     const options = getOptionsFromFlags(flags);
-    const { dc, buffs } = options;
 
-    const answer = get1d20(dc, buffs);
+    const answer = get1d20(options);
     const output = getResponseText(user_name, answer);
 
     const responseBody = {
