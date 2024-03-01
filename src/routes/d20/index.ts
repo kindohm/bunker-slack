@@ -102,6 +102,7 @@ router.post('/', (req: Request, res: Response) => {
   try {
     console.log('/d20');
     const { body } = req;
+    console.log('full body', body);
     const { response_url, user_name, text } = body;
 
     const flags = text.split(' ');
