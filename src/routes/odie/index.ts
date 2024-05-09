@@ -19,7 +19,10 @@ router.post('/', (req: Request, res: Response) => {
     const { body } = req;
     const { response_url, user_name, text } = body;
     const result = transform(text);
-    const final = Math.random() > 0.8 ? `${result}, huffalumpalump` : result;
+    const finalTransform =
+      Math.random() > 0.8 ? `${result}, huffalumpalump` : result;
+    const final = `"${finalTransform}" - Odie`;
+
     console.log({ user_name, text, final });
 
     const responseBody = {
