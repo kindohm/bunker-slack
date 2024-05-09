@@ -39,7 +39,7 @@ router.post('/', (req: Request, res: Response) => {
       res,
       response_url,
       responseBody,
-      showOriginalMessage: true,
+      showOriginalMessage: false,
       delay: 1000,
     });
   } catch (e) {
